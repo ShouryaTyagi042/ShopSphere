@@ -1,18 +1,20 @@
 import express, { Express, Request, Response, Application } from 'express';
 import dbConnect from './db/dbconnect';
 import "dotenv/config";
-import UserRoute from "./routes/UserRoute"
+import UserRoute from "./routes/userRoute"
 
 
 const app: Application = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
+
+
+app.use(express.json())
+app.use(UserRoute)
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Ecommerce API backend');
 });
-
-app.use(express.json())
-app.use(UserRoute)
 
 dbConnect().then(() => {
   app.listen(port, () => {

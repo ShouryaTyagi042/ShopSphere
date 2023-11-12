@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
-const MONG0_URI = "mongodb+srv://shouryatyagi042:dAsfOrPqYGxuk0O7@zaapibackendchallenge0.czkkavh.mongodb.net/?retryWrites=true&w=majority"
+import "dotenv/config";
 
-
+const uri = process.env.MONG0_URI!
 async function dbConnect(): Promise<void> {
   try {
     console.log("Connecting to MongoDB...");
-    await mongoose.connect(MONG0_URI);
+    await mongoose.connect(uri);
     console.log("Connected to MongoDB !\n");
   } catch (error) {
     throw error;
