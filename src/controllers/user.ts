@@ -34,12 +34,8 @@ export const loginUser = async (req: any, res: any) => {
 
 export const logoutUser = async (req: any, res: any) => {
     try {
-        req.user.tokens = req.user.tokens.filter((token: any) => {
-            return token.token !== req.token
-        })
-
-        await req.user.save()
-        res.send()
+        const msg = `successfully logged out ${req.user.name}`
+        res.send(msg)
     } catch (error) {
         res.status(500).send()
     }
