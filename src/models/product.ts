@@ -3,7 +3,7 @@ import { Schema, model } from 'mongoose';
 
 // Document interface
 interface Product {
-    seller: any; //will change
+    seller: string; //will change
     name: string;
     description: string;
     price: number;
@@ -12,7 +12,7 @@ interface Product {
 
 // Schema
 const productSchema = new Schema<Product>({
-    seller: { type: ObjectId, required: true, ref: 'Seller' },
+    seller: { type: String, required: true, ref: 'Seller' },
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },

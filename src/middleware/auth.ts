@@ -5,7 +5,8 @@ export const auth = async (req: any, res: any, next: any) => {
     try {
         const token = req.header('Authorization').replace('Bearer ', '')
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        req.token = token
+        console.log(decoded);
+        req.user = decoded;
         next()
     } catch (error) {
         res.status(401).send({ error: "Authentication required" })

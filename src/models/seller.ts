@@ -13,7 +13,7 @@ const sellerSchema = new Schema<Seller>({
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    income: { type: Number, default: 1000 },
+    income: { type: Number, default: 0 },
 });
 
 const Seller = model<Seller>('Seller', sellerSchema);
