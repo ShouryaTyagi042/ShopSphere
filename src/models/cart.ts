@@ -3,30 +3,30 @@ import { Schema, model } from 'mongoose';
 
 // Document interface
 interface Cart {
-    user_id: any;
+    user: string;
     products: any;
     bill: number;
 }
 
 // Schema
 const cartSchema = new Schema<Cart>({
-    user_id: { type: ObjectId, required: true },
+    user: { type: String, required: true },
     products: [{
         productId: {
             type: ObjectId,
             ref: 'Product',
-            required: true
+            required: true,
         },
         name: { type: String, required: true },
         quantity: {
             type: Number,
-            required: true,
             min: 1,
-            default: 1
+            default: 1,
+            required: true,
         },
         price: { type: Number, required: true }
     }],
-    bill: { type: Number, required: true }
+    bill: { type: Number, default: 0 }
 });
 
 const Cart = model<Cart>('Cart', cartSchema);
