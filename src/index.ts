@@ -5,6 +5,7 @@ import UserRoute from "./routes/userRoute"
 import SellerRoute from "./routes/sellerRoute"
 import CartRoute from "./routes/cartRoute"
 import OrderRoute from "./routes/orderRoute"
+import { paymentSettled } from './utility/paymentSettled';
 
 const app: Application = express();
 const port = process.env.PORT;
@@ -26,6 +27,8 @@ dbConnect().then(() => {
     console.log(`server is listening on ${port}`);
   })
 })
+
+paymentSettled;
 
 
 

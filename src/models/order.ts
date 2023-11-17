@@ -7,7 +7,8 @@ interface Order {
     email: string;
     products: any;
     bill: number;
-    timeofOrder: Date
+    timeofOrder: Date;
+    paymentSettled: boolean;
 }
 
 // Schema
@@ -30,7 +31,8 @@ const orderSchema = new Schema<Order>({
         },
     }],
     bill: { type: Number, required: true },
-    timeofOrder: { type: Date, default: Date.now }
+    timeofOrder: { type: Date, default: Date.now },
+    paymentSettled: { type: Boolean, default: false }
 });
 
 const Order = model<Order>('Order', orderSchema);
