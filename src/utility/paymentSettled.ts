@@ -1,11 +1,10 @@
 import Order from "../models/order";
-import Product from "../models/product";
 import Seller from "../models/seller";
 import "dotenv/config";
 
 
 var cron = require('node-cron');
-export const paymentSettled = cron.schedule('0 00 * * *', async () => {
+export const paymentSettled = cron.schedule('*/5 * * * *', async () => {
     try {
         var cursor = await Order.find({ paymentSettled: false })
         cursor.forEach(async (order) => {
