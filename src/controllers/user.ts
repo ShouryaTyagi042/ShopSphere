@@ -44,3 +44,4 @@ export const logoutUser = async (req: any, res: any) => {
         res.status(500).send()
     }
 }
+
