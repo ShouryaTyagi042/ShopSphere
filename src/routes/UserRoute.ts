@@ -9,4 +9,5 @@ router.post('/signup', createUser) // signup
 router.post('/login', loginUser) // login 
 router.post('/logout', auth, logoutUser) // logout
 
+
 export default router

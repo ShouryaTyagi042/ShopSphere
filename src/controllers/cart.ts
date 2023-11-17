@@ -7,17 +7,20 @@ export const addtoCart = async (req: any, res: any) => {
         const owner: string = req.user.email;
         const { productId, quantity } = req.body;
         const cart = await Cart.findOne({ user: owner });
-        const product = await Product.findOne({ _id: productId });
+        const product = await Product.findById(productId);
+        console.log(product);
         if (!product) {
             res.status(404).send({ message: "product not found" });
             return;
         }
-        cart?.products.push({ productId, quantity });
-        cart!.bill = cart?.products.reduce(async (acc: number, curr: any) => {
-            const currProduct = await Product.findOne({ _id: curr.productId })
-            return acc + currProduct!.price * curr.quantity;
+        cart!.products.push({ productId, price: product.price, name: product.name, quantity });
+        console.log(cart!.products);
+        cart!.bill = cart?.products.reduce((acc: number, curr: any) => {
+            return acc + curr.price * curr.quantity;
         }, 0)
+        console.log(cart!.bill);
         await cart!.save();
+        res.status(201).send({ cart })
     } catch (error) {
 
     }
