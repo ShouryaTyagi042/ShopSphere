@@ -1,5 +1,6 @@
 import Cart from "../models/cart";
 import Product from "../models/product";
+import User from "../models/user";
 
 export const addtoCart = async (req: any, res: any) => {
     try {
@@ -24,5 +25,14 @@ export const addtoCart = async (req: any, res: any) => {
     } catch (error) {
 
     }
+
+}
+
+export const order = async (req: any, res: any) => {
+    const ownerEmail: string = req.user.email;
+    const owner = await User.findOne({ email: ownerEmail });
+    const cart = await Cart.findOne({ user: ownerEmail });
+    owner!.balance -= cart!.bill;
+
 
 }
