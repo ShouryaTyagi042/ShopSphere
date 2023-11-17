@@ -13,7 +13,3 @@ export const findUser = async (email: string, password: string) => {
     }
     return user
 }
-
-export const generateInvoice = async (email: string) => {
-
-}

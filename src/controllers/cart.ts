@@ -28,11 +28,3 @@ export const addtoCart = async (req: any, res: any) => {
 
 }
 
-export const order = async (req: any, res: any) => {
-    const ownerEmail: string = req.user.email;
-    const owner = await User.findOne({ email: ownerEmail });
-    const cart = await Cart.findOne({ user: ownerEmail });
-    owner!.balance -= cart!.bill;
-
-
-}
