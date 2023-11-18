@@ -1,5 +1,6 @@
 import Cart from "../models/cart";
 import Product from "../models/product";
+import User from "../models/user";
 
 export const addtoCart = async (req: any, res: any) => {
     try {
@@ -24,6 +25,18 @@ export const addtoCart = async (req: any, res: any) => {
     } catch (error) {
 
     }
+}
 
+export const getItems = async (req: any, res: any) => {
+    try {
+        if (!req.user.role.includes("user")) res.status(400).send("this is a protected route");
+        const cart = await Cart.findOne({ user: req.user.email })
+        const products = cart?.products;
+        const bill = cart?.bill;
+        res.status(200).send({ products, bill })
+
+    } catch (error) {
+
+    }
 }
 
