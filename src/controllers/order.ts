@@ -11,6 +11,7 @@ export const createOrder = async (req: Request, res: Response) => {
         const ownerEmail: string = req.body.user.email;
         const owner = await User.findOne({ email: ownerEmail });
         const cart = await Cart.findOne({ userEmail: ownerEmail });
+        if (cart?.products.length == 0) throw new Error("Cart is empty")
         owner!.balance -= cart!.bill;
         if (owner!.balance < 0) throw new Error("Low balance")
         const invoice = await generateInvoice(ownerEmail);
