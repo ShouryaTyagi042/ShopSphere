@@ -28,7 +28,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
         const { name, email, password } = req.body;
         const user = await findAdmin(email, password);
         const token = genAuthToken(name, email, role);
-        res.send({ user, token })
+        res.status(200).send({ user, token })
     } catch (error) {
         res.status(400).send(error)
 
@@ -50,7 +50,6 @@ export const authoriseSeller = async (req: Request, res: Response) => {
         if (!req.body.user.role.includes("admin")) res.status(404).send({ error: "This is a protected route" })
         const { email } = req.body;
         console.log(email);
-
         const user = await User.findOne({ email });
         user!.is_seller = true;
         await user?.save();
@@ -58,6 +57,7 @@ export const authoriseSeller = async (req: Request, res: Response) => {
         res.status(200).send(user)
 
     } catch (error) {
+        res.status(400).send(error)
 
     }
 }

@@ -9,7 +9,7 @@ export const findUser = async (email: string, password: string) => {
     const isMatch = checkPass(password, user.password)
     console.log(isMatch)
     if (!isMatch) {
-        throw new Error('Unable to login')
+        throw new Error('Incorrect password')
     }
     return user
 }

@@ -25,6 +25,7 @@ export const addtoCart = async (req: Request, res: Response) => {
         await cart!.save();
         res.status(201).send({ cart })
     } catch (error) {
+        res.status(400).send(error)
 
     }
 }
@@ -38,7 +39,7 @@ export const getItems = async (req: Request, res: Response) => {
         res.status(200).send({ products, bill })
 
     } catch (error) {
-
+        res.status(400).send(error)
     }
 }
 
@@ -59,10 +60,11 @@ export const deleteItem = async (req: Request, res: Response) => {
             res.status(200).send("product deleted from cart");
         }
         else {
-            res.status(400).send("product not found in cart")
+            res.status(404).send("product not found")
         }
 
     } catch (error) {
+        res.status(400).send(error)
 
     }
 }
@@ -75,7 +77,7 @@ export const emptyCart = async (req: Request, res: Response) => {
         cart?.save();
         res.status(200).send("Emptied the cart")
     } catch (error) {
-
+        res.status(400).send(error)
     }
 
 }

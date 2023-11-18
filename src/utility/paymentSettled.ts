@@ -10,7 +10,7 @@ export const paymentSettled = cron.schedule('*/5 * * * *', async () => {
         cancelledOrder;
         sellerPayment;
     } catch (error) {
-
+        throw new Error("Payment Settled cron failed")
     }
 
 });

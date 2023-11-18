@@ -28,11 +28,12 @@ export const cancelOrder = async (req: Request, res: Response) => {
         if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
         const { orderId } = req.body;
         const order = await Order.findById(orderId);
+        if (!order) res.status(404).send("Order not found")
         order!.isCancelled = true;
         await order?.save();
         res.status(200).send("order cancelled")
     } catch (error) {
-
+        res.status(400).send(error)
     }
 
 }

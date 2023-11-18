@@ -10,7 +10,7 @@ export const generateInvoice = async (ownerEmail: string) => {
         console.log(order);
         return order;
     } catch (error) {
-
+        throw new Error("Invoice Generation Failed")
     }
 
 }

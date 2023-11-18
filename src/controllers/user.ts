@@ -31,17 +31,16 @@ export const loginUser = async (req: Request, res: Response) => {
         const user = await findUser(email, password);
         if (user.is_seller) role.push("seller")
         const token = genAuthToken(name, email, role);
-        res.send({ user, token })
+        res.status(200).send({ user, token })
     } catch (error) {
         res.status(400).send(error)
-
     }
 }
 
 export const logoutUser = async (req: Request, res: Response) => {
     try {
         const msg = `successfully logged out ${req.body.user.name}`
-        res.send(msg)
+        res.status(200).send(msg)
     } catch (error) {
         res.status(500).send()
     }
