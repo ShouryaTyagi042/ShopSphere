@@ -4,15 +4,18 @@ import { findUser } from "../services/user";
 import { genAuthToken } from "../utility/genAuthToken";
 import { hashPassword } from "../utility/hashPassword";
 
-const role = "user";
+const role = ["user"];
 
 export const createUser = async (req: any, res: any) => {
     try {
         console.log(req.body);
-        const { name, email, password } = req.body;
+        const { name, email, password, isSeller } = req.body;
         const pass = await hashPassword(password);
-        const user = await User.create({ name, email, password: pass })
+        const user = await User.create({ name, email, password: pass, is_seller: isSeller })
         console.log(user);
+        if (isSeller) {
+            role.push("seller");
+        }
         const token = genAuthToken(name, email, role)
         console.log(token);
         const cart = await createCart(email);
@@ -26,8 +29,9 @@ export const createUser = async (req: any, res: any) => {
 
 export const loginUser = async (req: any, res: any) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, isSeller } = req.body;
         const user = await findUser(email, password);
+        if (isSeller) role.push("seller")
         const token = genAuthToken(name, email, role);
         res.send({ user, token })
     } catch (error) {

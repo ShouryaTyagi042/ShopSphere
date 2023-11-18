@@ -8,15 +8,17 @@ interface User {
     password: string;
     balance: number;
     cart_id: any;
+    is_seller: boolean;
 }
 
 // Schema
 const userSchema = new Schema<User>({
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    balance: { type: Number, default: 1000 },
-    cart_id: { type: ObjectId }
+    balance: { type: Number, default: 10000 },
+    cart_id: { type: ObjectId },
+    is_seller: { type: Boolean, required: true }
 });
 
 const User = model<User>('User', userSchema);

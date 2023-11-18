@@ -2,7 +2,7 @@ import express, { Express, Request, Response, Application } from 'express';
 import dbConnect from './db/dbconnect';
 import "dotenv/config";
 import UserRoute from "./routes/userRoute"
-import SellerRoute from "./routes/sellerRoute"
+import SellerRoute from "./routes/productRoute"
 import CartRoute from "./routes/cartRoute"
 import OrderRoute from "./routes/orderRoute"
 import { paymentSettled } from './utility/paymentSettled';
