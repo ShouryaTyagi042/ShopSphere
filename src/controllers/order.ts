@@ -1,13 +1,14 @@
+import { Request, Response } from "express";
 import User from "../models/user";
 import Cart from "../models/cart";
 import { generateInvoice } from "../services/order";
 import Order from "../models/order";
 
 
-export const createOrder = async (req: any, res: any) => {
+export const createOrder = async (req: Request, res: Response) => {
     try {
-        if (!req.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
-        const ownerEmail: string = req.user.email;
+        if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
+        const ownerEmail: string = req.body.user.email;
         const owner = await User.findOne({ email: ownerEmail });
         const cart = await Cart.findOne({ user: ownerEmail });
         owner!.balance -= cart!.bill;
@@ -22,9 +23,9 @@ export const createOrder = async (req: any, res: any) => {
     }
 }
 
-export const cancelOrder = async (req: any, res: any) => {
+export const cancelOrder = async (req: Request, res: Response) => {
     try {
-        if (!req.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
+        if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
         const { orderId } = req.body;
         const order = await Order.findById(orderId);
         order!.isCancelled = true;

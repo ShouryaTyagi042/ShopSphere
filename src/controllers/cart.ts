@@ -1,12 +1,13 @@
+import { Request, Response } from "express";
 import Cart from "../models/cart";
 import Product from "../models/product";
-import User from "../models/user";
 
 
-export const addtoCart = async (req: any, res: any) => {
+
+export const addtoCart = async (req: Request, res: Response) => {
     try {
-        if (!req.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
-        const owner: string = req.user.email;
+        if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
+        const owner: string = req.body.user.email;
         const { productId, quantity } = req.body;
         const cart = await Cart.findOne({ user: owner });
         const product = await Product.findById(productId);
@@ -28,10 +29,10 @@ export const addtoCart = async (req: any, res: any) => {
     }
 }
 
-export const getItems = async (req: any, res: any) => {
+export const getItems = async (req: Request, res: Response) => {
     try {
-        if (!req.user.role.includes("user")) res.status(400).send("this is a protected route");
-        const cart = await Cart.findOne({ user: req.user.email })
+        if (!req.body.user.role.includes("user")) res.status(400).send("this is a protected route");
+        const cart = await Cart.findOne({ user: req.body.user.email })
         const products = cart?.products;
         const bill = cart?.bill;
         res.status(200).send({ products, bill })
@@ -41,11 +42,11 @@ export const getItems = async (req: any, res: any) => {
     }
 }
 
-export const deleteItem = async (req: any, res: any) => {
+export const deleteItem = async (req: Request, res: Response) => {
     try {
-        if (!req.user.role.includes("user")) res.status(400).send("this is a protected route");
+        if (!req.body.user.role.includes("user")) res.status(400).send("this is a protected route");
         const { productId } = req.body;
-        const cart = await Cart.findOne({ user: req.user.email })
+        const cart = await Cart.findOne({ user: req.body.user.email })
         let productFound = false;
         cart?.products.forEach((product: any) => {
             if (product.productId.toString() == productId) {
@@ -66,10 +67,10 @@ export const deleteItem = async (req: any, res: any) => {
     }
 }
 
-export const emptyCart = async (req: any, res: any) => {
+export const emptyCart = async (req: Request, res: Response) => {
     try {
-        if (!req.user.role.includes("user")) res.status(400).send("this is a protected route");
-        const cart = await Cart.findOne({ user: req.user.email });
+        if (!req.body.user.role.includes("user")) res.status(400).send("this is a protected route");
+        const cart = await Cart.findOne({ user: req.body.user.email });
         cart!.products = [];
         cart?.save();
         res.status(200).send("Emptied the cart")

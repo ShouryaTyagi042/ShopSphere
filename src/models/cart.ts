@@ -1,5 +1,7 @@
 import { ObjectId } from 'mongodb';
 import { Schema, model } from 'mongoose';
+import Product from './product';
+import { CartProduct } from '../interface/cartProduct';
 
 // Document interface
 interface Cart {

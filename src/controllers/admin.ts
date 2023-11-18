@@ -1,12 +1,13 @@
+import { Request, Response } from "express";
 import Admin from "../models/admin";
-import User from "../models/user"
+import User from "../models/user";
 import { findAdmin } from "../services/admin";
 import { genAuthToken } from "../utility/genAuthToken";
 import { hashPassword } from "../utility/hashPassword";
 
 const role = ["admin"];
 
-export const createAdmin = async (req: any, res: any) => {
+export const createAdmin = async (req: Request, res: Response) => {
     try {
         console.log(req.body);
         const { name, email, password } = req.body;
@@ -22,7 +23,7 @@ export const createAdmin = async (req: any, res: any) => {
     }
 }
 
-export const loginAdmin = async (req: any, res: any) => {
+export const loginAdmin = async (req: Request, res: Response) => {
     try {
         const { name, email, password } = req.body;
         const user = await findAdmin(email, password);
@@ -34,19 +35,19 @@ export const loginAdmin = async (req: any, res: any) => {
     }
 }
 
-export const logoutAdmin = async (req: any, res: any) => {
+export const logoutAdmin = async (req: Request, res: Response) => {
     try {
-        const msg = `successfully logged out ${req.user.name}`
+        const msg = `successfully logged out ${req.body.user.name}`
         res.send(msg)
     } catch (error) {
         res.status(500).send()
     }
 }
 
-export const authoriseSeller = async (req: any, res: any) => {
+export const authoriseSeller = async (req: Request, res: Response) => {
     try {
-        console.log(req.user.role.includes("admin"));
-        if (!req.user.role.includes("admin")) res.status(404).send({ error: "This is a protected route" })
+        console.log(req.body.user.role.includes("admin"));
+        if (!req.body.user.role.includes("admin")) res.status(404).send({ error: "This is a protected route" })
         const { email } = req.body;
         console.log(email);
 

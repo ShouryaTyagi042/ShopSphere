@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import User from "../models/user"
 import { createCart } from "../services/cart";
 import { findUser } from "../services/user";
@@ -6,7 +7,7 @@ import { hashPassword } from "../utility/hashPassword";
 
 const role = ["user"];
 
-export const createUser = async (req: any, res: any) => {
+export const createUser = async (req: Request, res: Response) => {
     try {
         console.log(req.body);
         const { name, email, password } = req.body;
@@ -24,7 +25,7 @@ export const createUser = async (req: any, res: any) => {
     }
 }
 
-export const loginUser = async (req: any, res: any) => {
+export const loginUser = async (req: Request, res: Response) => {
     try {
         const { name, email, password } = req.body;
         const user = await findUser(email, password);
@@ -37,9 +38,9 @@ export const loginUser = async (req: any, res: any) => {
     }
 }
 
-export const logoutUser = async (req: any, res: any) => {
+export const logoutUser = async (req: Request, res: Response) => {
     try {
-        const msg = `successfully logged out ${req.user.name}`
+        const msg = `successfully logged out ${req.body.user.name}`
         res.send(msg)
     } catch (error) {
         res.status(500).send()
