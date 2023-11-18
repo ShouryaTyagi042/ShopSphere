@@ -7,6 +7,7 @@ interface Product {
     description: string;
     price: number;
     category: string;
+    images: string[];
 }
 
 // Schema
@@ -16,6 +17,7 @@ const productSchema = new Schema<Product>({
     description: { type: String, required: true },
     price: { type: Number, required: true },
     category: { type: String, required: true },
+    images: [{ type: String, required: true }]
 });
 
 const Product = model<Product>('Product', productSchema);
