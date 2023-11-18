@@ -1,6 +1,7 @@
 import User from "../models/user";
 import Cart from "../models/cart";
 import { generateInvoice } from "../services/order";
+import Order from "../models/order";
 
 
 export const createOrder = async (req: any, res: any) => {
@@ -19,6 +20,18 @@ export const createOrder = async (req: any, res: any) => {
     } catch (error) {
         res.status(400).send("order creation failed")
     }
+}
 
+export const cancelOrder = async (req: any, res: any) => {
+    try {
+        if (!req.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
+        const { orderId } = req.body;
+        const order = await Order.findById(orderId);
+        order!.isCancelled = true;
+        await order?.save();
+        res.status(200).send("order cancelled")
+    } catch (error) {
+
+    }
 
 }

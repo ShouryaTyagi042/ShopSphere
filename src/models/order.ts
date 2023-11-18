@@ -8,6 +8,7 @@ interface Order {
     products: any;
     bill: number;
     timeofOrder: Date;
+    isCancelled: boolean;
     paymentSettled: boolean;
 }
 
@@ -32,6 +33,7 @@ const orderSchema = new Schema<Order>({
     }],
     bill: { type: Number, required: true },
     timeofOrder: { type: Date, default: Date.now },
+    isCancelled: { type: Boolean, default: false },
     paymentSettled: { type: Boolean, default: false }
 });
 
