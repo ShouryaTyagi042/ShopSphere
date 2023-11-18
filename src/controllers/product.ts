@@ -15,3 +15,4 @@ export const createProduct = async (req: any, res: any) => {
         res.status(400).send()
     }
 }
+
