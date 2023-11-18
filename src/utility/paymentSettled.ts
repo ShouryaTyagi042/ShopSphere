@@ -5,7 +5,7 @@ import User from "../models/user";
 
 
 var cron = require('node-cron');
-export const paymentSettled = cron.schedule('*/5 * * * *', async () => {
+export const paymentSettled = cron.schedule('*/10 * * * *', async () => {
     try {
         cancelledOrder;
         sellerPayment;

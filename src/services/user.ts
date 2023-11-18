@@ -13,3 +13,9 @@ export const findUser = async (email: string, password: string) => {
     }
     return user
 }
+
+export const checkUser = async (email: string) => {
+    const check = await User.findOne({ email });
+    if (check) return true;
+    return false
+}

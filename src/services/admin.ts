@@ -13,3 +13,9 @@ export const findAdmin = async (email: string, password: string) => {
     }
     return admin
 }
+
+export const checkAdmin = async (email: string) => {
+    const check = await Admin.findOne({ email });
+    if (check) return true;
+    return false
+}

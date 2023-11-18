@@ -6,8 +6,8 @@ import { auth } from '../middleware/auth'
 const router = express.Router()
 
 router.post('/admin-signup', createAdmin) // signup
-router.post('/authorise-seller', auth, authoriseSeller) // authorise seller
 router.post('/admin-login', loginAdmin) // login 
+router.put('/authorise-seller', auth, authoriseSeller) // authorise seller
 router.post('/admin-logout', auth, logoutAdmin) // logout
 
 

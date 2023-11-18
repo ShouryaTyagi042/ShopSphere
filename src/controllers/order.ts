@@ -7,33 +7,33 @@ import Order from "../models/order";
 
 export const createOrder = async (req: Request, res: Response) => {
     try {
-        if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
+        if (!req.body.user.role.includes("user")) throw new Error("Only User can access this route")
         const ownerEmail: string = req.body.user.email;
         const owner = await User.findOne({ email: ownerEmail });
         const cart = await Cart.findOne({ userEmail: ownerEmail });
         owner!.balance -= cart!.bill;
-        if (owner!.balance < 0) throw console.error("low balance");
+        if (owner!.balance < 0) throw new Error("Low balance")
         const invoice = await generateInvoice(ownerEmail);
         cart!.products = [];
         await owner?.save();
         await cart?.save();
         res.status(201).send({ invoice })
-    } catch (error) {
-        res.status(400).send("order creation failed")
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
     }
 }
 
 export const cancelOrder = async (req: Request, res: Response) => {
     try {
-        if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
+        if (!req.body.user.role.includes("user")) throw new Error("Only User can access this route")
         const { orderId } = req.body;
         const order = await Order.findById(orderId);
-        if (!order) res.status(404).send("Order not found")
+        if (!order) throw new Error("order was not found");
         order!.isCancelled = true;
         await order?.save();
         res.status(200).send("order cancelled")
-    } catch (error) {
-        res.status(400).send(error)
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
     }
 
 }

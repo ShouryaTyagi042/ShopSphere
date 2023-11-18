@@ -5,7 +5,7 @@ import { cancelOrder, createOrder } from '../controllers/order'
 
 const router = express.Router()
 
-router.post('/order', auth, createOrder)
-router.patch('/cancel-order', auth, cancelOrder)
+router.post('/order', auth, createOrder) // create an order 
+router.put('/cancel-order', auth, cancelOrder) // cancel an existing order
 
 export default router

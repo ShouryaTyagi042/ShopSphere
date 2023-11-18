@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Admin from "../models/admin";
 import User from "../models/user";
-import { findAdmin } from "../services/admin";
+import { checkAdmin, findAdmin } from "../services/admin";
 import { genAuthToken } from "../utility/genAuthToken";
 import { hashPassword } from "../utility/hashPassword";
 
@@ -11,6 +11,7 @@ export const createAdmin = async (req: Request, res: Response) => {
     try {
         console.log(req.body);
         const { name, email, password } = req.body;
+        if (await checkAdmin(email)) throw new Error("Admin already exists")
         const pass = await hashPassword(password);
         const admin = await Admin.create({ name, email, password: pass })
         console.log(admin);
@@ -18,8 +19,8 @@ export const createAdmin = async (req: Request, res: Response) => {
         console.log(token);
         res.status(201).send({ admin, token })
 
-    } catch (error) {
-        res.status(400).send(error)
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
     }
 }
 
@@ -29,8 +30,8 @@ export const loginAdmin = async (req: Request, res: Response) => {
         const user = await findAdmin(email, password);
         const token = genAuthToken(name, email, role);
         res.status(200).send({ user, token })
-    } catch (error) {
-        res.status(400).send(error)
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
 
     }
 }
@@ -39,15 +40,15 @@ export const logoutAdmin = async (req: Request, res: Response) => {
     try {
         const msg = `successfully logged out ${req.body.user.name}`
         res.send(msg)
-    } catch (error) {
-        res.status(500).send()
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
     }
 }
 
 export const authoriseSeller = async (req: Request, res: Response) => {
     try {
         console.log(req.body.user.role.includes("admin"));
-        if (!req.body.user.role.includes("admin")) res.status(404).send({ error: "This is a protected route" })
+        if (!req.body.user.role.includes("admin")) throw new Error("Only Admin can access this")
         const { email } = req.body;
         console.log(email);
         const user = await User.findOne({ email });
@@ -56,8 +57,8 @@ export const authoriseSeller = async (req: Request, res: Response) => {
         console.log(user);
         res.status(200).send(user)
 
-    } catch (error) {
-        res.status(400).send(error)
+    } catch (error: any) {
+        res.status(400).json({ error: error.message });
 
     }
 }
