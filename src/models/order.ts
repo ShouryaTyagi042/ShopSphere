@@ -15,7 +15,7 @@ interface Order {
 // Schema
 const orderSchema = new Schema<Order>({
     name: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, ref: 'user' },
     products: [{
         productId: {
             type: ObjectId,

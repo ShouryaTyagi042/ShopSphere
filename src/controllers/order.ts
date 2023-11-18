@@ -10,7 +10,7 @@ export const createOrder = async (req: Request, res: Response) => {
         if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
         const ownerEmail: string = req.body.user.email;
         const owner = await User.findOne({ email: ownerEmail });
-        const cart = await Cart.findOne({ user: ownerEmail });
+        const cart = await Cart.findOne({ userEmail: ownerEmail });
         owner!.balance -= cart!.bill;
         if (owner!.balance < 0) throw console.error("low balance");
         const invoice = await generateInvoice(ownerEmail);

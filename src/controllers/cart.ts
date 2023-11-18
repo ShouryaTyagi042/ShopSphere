@@ -9,7 +9,7 @@ export const addtoCart = async (req: Request, res: Response) => {
         if (!req.body.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
         const owner: string = req.body.user.email;
         const { productId, quantity } = req.body;
-        const cart = await Cart.findOne({ user: owner });
+        const cart = await Cart.findOne({ userEmail: owner });
         const product = await Product.findById(productId);
         console.log(product);
         if (!product) {
@@ -32,7 +32,7 @@ export const addtoCart = async (req: Request, res: Response) => {
 export const getItems = async (req: Request, res: Response) => {
     try {
         if (!req.body.user.role.includes("user")) res.status(400).send("this is a protected route");
-        const cart = await Cart.findOne({ user: req.body.user.email })
+        const cart = await Cart.findOne({ userEmail: req.body.user.email })
         const products = cart?.products;
         const bill = cart?.bill;
         res.status(200).send({ products, bill })
@@ -46,7 +46,7 @@ export const deleteItem = async (req: Request, res: Response) => {
     try {
         if (!req.body.user.role.includes("user")) res.status(400).send("this is a protected route");
         const { productId } = req.body;
-        const cart = await Cart.findOne({ user: req.body.user.email })
+        const cart = await Cart.findOne({ userEmail: req.body.user.email })
         let productFound = false;
         cart?.products.forEach((product: any) => {
             if (product.productId.toString() == productId) {
@@ -70,7 +70,7 @@ export const deleteItem = async (req: Request, res: Response) => {
 export const emptyCart = async (req: Request, res: Response) => {
     try {
         if (!req.body.user.role.includes("user")) res.status(400).send("this is a protected route");
-        const cart = await Cart.findOne({ user: req.body.user.email });
+        const cart = await Cart.findOne({ userEmail: req.body.user.email });
         cart!.products = [];
         cart?.save();
         res.status(200).send("Emptied the cart")

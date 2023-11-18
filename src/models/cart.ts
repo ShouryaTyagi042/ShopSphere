@@ -1,18 +1,17 @@
 import { ObjectId } from 'mongodb';
 import { Schema, model } from 'mongoose';
-import Product from './product';
-import { CartProduct } from '../interface/cartProduct';
+
 
 // Document interface
 interface Cart {
-    user: string;
+    userEmail: string;
     products: any;
     bill: number;
 }
 
 // Schema
 const cartSchema = new Schema<Cart>({
-    user: { type: String, required: true },
+    userEmail: { type: String, required: true, ref: 'User' },
     products: [{
         productId: {
             type: ObjectId,

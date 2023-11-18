@@ -21,7 +21,7 @@ const sellerPayment = async () => {
         const products = order.products;
         products.forEach(async (product: any) => {
             const productInfo = await Product.findById(product.productId)
-            const seller = await User.findOne({ email: productInfo?.seller })
+            const seller = await User.findOne({ email: productInfo?.sellerEmail })
             console.log(seller);
             seller!.balance += (product.price * product.quantity) * 0.8;
             console.log(seller?.balance);

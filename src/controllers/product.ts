@@ -7,7 +7,7 @@ export const createProduct = async (req: Request, res: Response) => {
         if (!req.body.user.role.includes("seller")) res.status(404).send({ error: "This is a protected route" })
         const { name, description, price, category } = req.body;
         const sellerEmail = req.body.user.email
-        const product = await Product.create({ seller: sellerEmail, name, description, price, category })
+        const product = await Product.create({ sellerEmail, name, description, price, category })
         console.log(product);
         res.status(201).send({ product })
 
