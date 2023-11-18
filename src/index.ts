@@ -2,7 +2,7 @@ import express, { Express, Request, Response, Application } from 'express';
 import dbConnect from './db/dbconnect';
 import "dotenv/config";
 import UserRoute from "./routes/userRoute"
-import SellerRoute from "./routes/productRoute"
+import AdminRoute from "./routes/adminRoute"
 import CartRoute from "./routes/cartRoute"
 import OrderRoute from "./routes/orderRoute"
 import { paymentSettled } from './utility/paymentSettled';
@@ -13,7 +13,7 @@ const port = process.env.PORT;
 
 app.use(express.json())
 app.use(UserRoute)
-app.use(SellerRoute)
+app.use(AdminRoute)
 app.use(CartRoute)
 app.use(OrderRoute)
 

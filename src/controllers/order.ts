@@ -5,7 +5,7 @@ import { generateInvoice } from "../services/order";
 
 export const createOrder = async (req: any, res: any) => {
     try {
-        if (req.user.role.findIndex("user") == -1) res.status(404).send({ error: "This is a protected route" })
+        if (!req.user.role.includes("user")) res.status(404).send({ error: "This is a protected route" })
         const ownerEmail: string = req.user.email;
         const owner = await User.findOne({ email: ownerEmail });
         const cart = await Cart.findOne({ user: ownerEmail });

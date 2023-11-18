@@ -1,12 +1,14 @@
 import express from 'express'
 import "dotenv/config"
-import { createAdmin } from '../controllers/admin'
+import { authoriseSeller, createAdmin, loginAdmin, logoutAdmin } from '../controllers/admin'
+import { auth } from '../middleware/auth'
 
 const router = express.Router()
 
 router.post('/admin-signup', createAdmin) // signup
-// router.post('/admin-login', loginUser) // login 
-// router.post('/admin-logout', auth, logoutUser) // logout
+router.post('/authorise-seller', auth, authoriseSeller) // authorise seller
+router.post('/admin-login', loginAdmin) // login 
+router.post('/admin-logout', auth, logoutAdmin) // logout
 
 
 export default router

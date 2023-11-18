@@ -1,7 +1,6 @@
 import Admin from "../models/admin";
 import User from "../models/user"
-import { createCart } from "../services/cart";
-import { findUser } from "../services/user";
+import { findAdmin } from "../services/admin";
 import { genAuthToken } from "../utility/genAuthToken";
 import { hashPassword } from "../utility/hashPassword";
 
@@ -16,9 +15,7 @@ export const createAdmin = async (req: any, res: any) => {
         console.log(admin);
         const token = genAuthToken(name, email, role)
         console.log(token);
-        const cart = await createCart(email);
-        console.log(cart);
-        res.status(201).send({ admin, token, cart })
+        res.status(201).send({ admin, token })
 
     } catch (error) {
         res.status(400).send(error)
@@ -28,7 +25,7 @@ export const createAdmin = async (req: any, res: any) => {
 export const loginAdmin = async (req: any, res: any) => {
     try {
         const { name, email, password } = req.body;
-        const user = await findUser(email, password);
+        const user = await findAdmin(email, password);
         const token = genAuthToken(name, email, role);
         res.send({ user, token })
     } catch (error) {
@@ -48,12 +45,16 @@ export const logoutAdmin = async (req: any, res: any) => {
 
 export const authoriseSeller = async (req: any, res: any) => {
     try {
-        if (req.user.role.findIndex("admin") == -1) res.status(404).send({ error: "This is a protected route" })
+        console.log(req.user.role.includes("admin"));
+        if (!req.user.role.includes("admin")) res.status(404).send({ error: "This is a protected route" })
         const { email } = req.body;
+        console.log(email);
+
         const user = await User.findOne({ email });
         user!.is_seller = true;
         await user?.save();
         console.log(user);
+        res.status(200).send(user)
 
     } catch (error) {
 
