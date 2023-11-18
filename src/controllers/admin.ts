@@ -1,34 +1,34 @@
+import Admin from "../models/admin";
 import User from "../models/user"
 import { createCart } from "../services/cart";
 import { findUser } from "../services/user";
 import { genAuthToken } from "../utility/genAuthToken";
 import { hashPassword } from "../utility/hashPassword";
 
-const role = ["user"];
+const role = ["admin"];
 
-export const createUser = async (req: any, res: any) => {
+export const createAdmin = async (req: any, res: any) => {
     try {
         console.log(req.body);
         const { name, email, password } = req.body;
         const pass = await hashPassword(password);
-        const user = await User.create({ name, email, password: pass })
-        console.log(user);
+        const admin = await Admin.create({ name, email, password: pass })
+        console.log(admin);
         const token = genAuthToken(name, email, role)
         console.log(token);
         const cart = await createCart(email);
         console.log(cart);
-        res.status(201).send({ user, token, cart })
+        res.status(201).send({ admin, token, cart })
 
     } catch (error) {
         res.status(400).send(error)
     }
 }
 
-export const loginUser = async (req: any, res: any) => {
+export const loginAdmin = async (req: any, res: any) => {
     try {
         const { name, email, password } = req.body;
         const user = await findUser(email, password);
-        if (user.is_seller) role.push("seller")
         const token = genAuthToken(name, email, role);
         res.send({ user, token })
     } catch (error) {
@@ -37,7 +37,7 @@ export const loginUser = async (req: any, res: any) => {
     }
 }
 
-export const logoutUser = async (req: any, res: any) => {
+export const logoutAdmin = async (req: any, res: any) => {
     try {
         const msg = `successfully logged out ${req.user.name}`
         res.send(msg)
@@ -46,3 +46,16 @@ export const logoutUser = async (req: any, res: any) => {
     }
 }
 
+export const authoriseSeller = async (req: any, res: any) => {
+    try {
+        if (req.user.role.findIndex("admin") == -1) res.status(404).send({ error: "This is a protected route" })
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+        user!.is_seller = true;
+        await user?.save();
+        console.log(user);
+
+    } catch (error) {
+
+    }
+}

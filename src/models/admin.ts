@@ -2,25 +2,19 @@ import { ObjectId } from 'mongodb';
 import { Schema, model } from 'mongoose';
 
 // Document interface
-interface User {
+interface Admin {
     name: string;
     email: string;
     password: string;
-    balance: number;
-    cart_id: any;
-    is_seller: boolean;
 }
 
 // Schema
-const userSchema = new Schema<User>({
+const adminSchema = new Schema<Admin>({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    balance: { type: Number, default: 10000 },
-    cart_id: { type: ObjectId },
-    is_seller: { type: Boolean, default: false }
 });
 
-const User = model<User>('User', userSchema);
+const Admin = model<Admin>('Admin', adminSchema);
 
-export default User;
+export default Admin;
