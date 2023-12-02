@@ -2,6 +2,8 @@
 
 This is the backend API for an e-commerce platform built using Node.js, Express, and TypeScript.
 
+## Postman Link - [Postman](https://www.postman.com/orbital-module-operator-35663687/workspace/backend-challenge-zaapi/collection/23709695-5c516556-6a9f-4918-8300-ce8fd720f245?action=share&creator=23709695)
+
 ## Getting Started
 To get started with this project, follow these steps:
 

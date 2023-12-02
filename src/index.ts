@@ -6,7 +6,7 @@ import AdminRoute from "./routes/adminRoute"
 import CartRoute from "./routes/cartRoute"
 import OrderRoute from "./routes/orderRoute"
 import ProductRoute from "./routes/productRoute"
-import { paymentSettled } from './utility/paymentSettled';
+import { paymentSettled } from './services/paymentSettled';
 
 const app: Application = express();
 const port = process.env.PORT;
