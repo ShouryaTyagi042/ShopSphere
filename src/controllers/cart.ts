@@ -50,11 +50,11 @@ export const deleteItem = async (req: Request, res: Response) => {
             if (product.productId.toString() == productId) {
                 productFound = true;
                 cart.products.splice(cart.products.indexOf(product), 1)
-                cart.bill -= product.price
+                cart.bill -= product.price * product.quantity
             }
         });
         if (!productFound) throw new Error("Product was not found")
-        await cart?.save();
+        await cart!.save();
         res.status(200).send("product deleted from cart");
 
     } catch (error: any) {
@@ -69,7 +69,7 @@ export const emptyCart = async (req: Request, res: Response) => {
         const cart = await Cart.findOne({ userEmail: req.body.user.email });
         cart!.products = [];
         cart!.bill = 0;
-        cart?.save();
+        cart!.save();
         res.status(200).send("Emptied the cart")
     } catch (error) {
         res.status(400).send(error)

@@ -5,7 +5,7 @@ import { Schema, model } from 'mongoose';
 interface Order {
     name: string;
     email: string;
-    products: any;
+    products: (string | number | ObjectId)[];
     bill: number;
     timeofOrder: Date;
     isCancelled: boolean;
