@@ -10,6 +10,7 @@ export const addtoCart = async (req: Request, res: Response) => {
         const owner: string = req.body.user.email;
         const { productId, quantity } = req.body;
         const cart = await Cart.findOne({ userEmail: owner });
+        if (!cart) throw new Error("User not found")
         const product = await Product.findById(productId);
         console.log(product);
         if (!product) throw new Error("Product was not found")
@@ -41,7 +42,7 @@ export const getItems = async (req: Request, res: Response) => {
 
 export const deleteItem = async (req: Request, res: Response) => {
     try {
-        if (!req.body.user.role.includes("user")) throw new Error("Only USER can access this route");
+        if (!req.body.user.role.includes("user")) throw new Error("Only user can access this route");
         const { productId } = req.body;
         const cart = await Cart.findOne({ userEmail: req.body.user.email })
         let productFound = false;
@@ -64,7 +65,7 @@ export const deleteItem = async (req: Request, res: Response) => {
 
 export const emptyCart = async (req: Request, res: Response) => {
     try {
-        if (!req.body.user.role.includes("user")) res.status(400).send("this is a protected route");
+        if (!req.body.user.role.includes("user")) res.status(400).send("Only user can access this route");
         const cart = await Cart.findOne({ userEmail: req.body.user.email });
         cart!.products = [];
         cart!.bill = 0;

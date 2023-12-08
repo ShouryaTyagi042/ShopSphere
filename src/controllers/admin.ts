@@ -52,8 +52,9 @@ export const authoriseSeller = async (req: Request, res: Response) => {
         const { email } = req.body;
         console.log(email);
         const user = await User.findOne({ email });
+        if (user == null) throw new Error("User not Found");
         user!.is_seller = true;
-        await user?.save();
+        await user!.save();
         console.log(user);
         res.status(200).send(user)
 
