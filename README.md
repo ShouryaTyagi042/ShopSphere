@@ -1,4 +1,4 @@
-# BackendChallengeZaapi
+# ShopSphere
 
 This is the backend API for an e-commerce platform built using Node.js, Express, and TypeScript.
 
