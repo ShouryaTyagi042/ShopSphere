@@ -32,10 +32,11 @@ export const loginUser = async (req: Request, res: Response) => {
         const user = await findUser(email, password);
         if (user.is_seller) role.push("seller")
         const token = genAuthToken(name, email, role);
+        console.log(user)
         role.pop();
         res.status(200).send({ user, token })
     } catch (error: any) {
-        res.status(400).json({ error: error.message });
+        res.status(401).json({ error: error.message });
     }
 }
 

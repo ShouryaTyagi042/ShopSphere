@@ -11,7 +11,6 @@ import { paymentSettled } from './services/paymentSettled';
 const app: Application = express();
 const port = process.env.PORT;
 
-
 app.use(express.json())
 app.use(UserRoute)
 app.use(AdminRoute)
@@ -28,6 +27,8 @@ dbConnect().then(() => {
   app.listen(port, () => {
     console.log(`server is listening on ${port}`);
   })
+}).catch((error) => {
+  console.log(`Error connnecting to the database ${error}`)
 })
 
 paymentSettled;
