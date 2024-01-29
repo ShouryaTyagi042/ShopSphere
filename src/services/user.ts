@@ -6,7 +6,7 @@ export const findUser = async (email: string, password: string) => {
     if (!user) {
         throw new Error('Unable to log in')
     }
-    const isMatch = checkPass(password, user.password)
+    const isMatch = await checkPass(password, user.password)
     console.log(isMatch)
     if (!isMatch) {
         throw new Error('Incorrect password')
